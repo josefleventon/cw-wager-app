@@ -19,8 +19,8 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
           <MetaTags
             title="Wizard Duel"
             description="Duel your Pixel Wizard against other wizards. Who is the wisest?"
-            image="https://pixelwizards.art/wp-content/uploads/2022/11/pixel-wizards-collection.gif"
-            ogImage="https://pixelwizards.art/wp-content/uploads/2022/11/pixel-wizards-collection.gif"
+            image="https://i.ibb.co/KFkThny/image.png"
+            ogImage="https://i.ibb.co/KFkThny/image.png"
             url="https://duel.pixelwizards.art"
           />
           <main className="w-screen min-h-screen overflow-x-hidden text-white bg-bg">
