@@ -73,11 +73,13 @@ const Wager: NextPage = () => {
         !address ||
         !client?.wagerContract ||
         !wizards ||
-        !versus ||
-        !amount ||
-        !duration
+        (versus as string) == 'null' ||
+        String(amount) == 'null' ||
+        String(duration) == 'null'
       )
         return
+
+      console.log(versus, amount, duration)
 
       const messageComposer = new WagerMessageComposer(
         address,
@@ -210,7 +212,7 @@ const Wager: NextPage = () => {
                 {...register('versus', { required: true })}
                 className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
               >
-                <option disabled selected>
+                <option value={'null'} disabled selected>
                   Versus
                 </option>
                 {currencies
@@ -229,7 +231,7 @@ const Wager: NextPage = () => {
                 {...register('amount', { required: true })}
                 className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
               >
-                <option disabled selected>
+                <option value={'null'} disabled selected>
                   Wager Amount
                 </option>
                 {config.amounts.map((amount) => (
@@ -242,7 +244,7 @@ const Wager: NextPage = () => {
                 {...register('duration', { required: true })}
                 className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
               >
-                <option disabled selected>
+                <option value={'null'} disabled selected>
                   Wager Duration
                 </option>
                 {config.expiries.map((expiry) => (
