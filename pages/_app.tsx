@@ -14,22 +14,20 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Toaster position="top-right" />
-      <ChakraProvider theme={defaultTheme}>
-        <WalletProvider>
-          <TxProvider>
-            <MetaTags
-              title="Wizard Duel"
-              description="Duel your Pixel Wizard against other wizards. Who is the wisest?"
-              image="https://pixelwizards.art/wp-content/uploads/2022/11/pixel-wizards-collection.gif"
-              ogImage="https://pixelwizards.art/wp-content/uploads/2022/11/pixel-wizards-collection.gif"
-              url="https://duel.pixelwizards.art"
-            />
-            <main className="w-screen min-h-screen overflow-x-hidden text-white bg-bg">
-              <Component {...pageProps} />
-            </main>
-          </TxProvider>
-        </WalletProvider>
-      </ChakraProvider>
+      <WalletProvider>
+        <TxProvider>
+          <MetaTags
+            title="Wizard Duel"
+            description="Duel your Pixel Wizard against other wizards. Who is the wisest?"
+            image="https://pixelwizards.art/wp-content/uploads/2022/11/pixel-wizards-collection.gif"
+            ogImage="https://pixelwizards.art/wp-content/uploads/2022/11/pixel-wizards-collection.gif"
+            url="https://duel.pixelwizards.art"
+          />
+          <main className="w-screen min-h-screen overflow-x-hidden text-white bg-bg">
+            <Component {...pageProps} />
+          </main>
+        </TxProvider>
+      </WalletProvider>
     </>
   )
 }
