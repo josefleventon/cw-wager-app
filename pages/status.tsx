@@ -217,14 +217,14 @@ const Status: NextPage = () => {
                 </div>
               </div>
               <div className="flex flex-col md:justify-center">
-                <p className="mt-1 font-bold">
+                <p className="font-bold">
                   $
                   {wizard.traits.find((trait) => trait.name === 'token')?.value}
                 </p>
                 <p className="mt-4 text-xl">{wizard.name}</p>
                 <p className="mt-4 text-4xl md:mt-12 md:text-6xl">VS</p>
                 <p className="mt-2 text-xl md:mt-4">{otherWizard?.name}</p>
-                <p className="mt-1 font-bold">
+                <p className="mt-4 font-bold">
                   $
                   {
                     otherWizard?.traits.find((trait) => trait.name === 'token')
