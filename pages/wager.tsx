@@ -38,7 +38,7 @@ const Wager: NextPage = () => {
   >(false)
 
   useEffect(() => {
-    if (!client?.wagerClient || !wizards) return
+    if (!client?.wagerClient || !wizards || wizards.length < 1) return
     client.wagerClient
       .tokenStatus({
         token: [COLLECTION_ADDRESS, parseInt(wizards[selectedWizard].tokenId)],
@@ -160,7 +160,11 @@ const Wager: NextPage = () => {
             <div className="w-64 h-64">
               <MintImage
                 // src={wizards[selectedWizard].media.image.jpgLink}
-                src={`https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizards[selectedWizard].tokenId}.svg`}
+                src={
+                  wizards[selectedWizard]
+                    ? `https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizards[selectedWizard].tokenId}.svg`
+                    : undefined
+                }
                 alt={wizards[selectedWizard].name}
               />
             </div>
