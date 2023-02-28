@@ -94,7 +94,9 @@ const Wager: NextPage = () => {
             title: 'Battle Initiated!',
           },
         },
-        () => {},
+        () => {
+          router.push(`/status?token_id=${wizards[selectedWizard].tokenId}`)
+        },
       )
     },
     [client, address, wizards, selectedWizard],
