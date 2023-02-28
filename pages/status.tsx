@@ -228,7 +228,8 @@ const Status: NextPage = () => {
         {status === 'wager' && (
           <>
             <div className="flex justify-center mt-4 text-lg">
-              <div className="flex flex-row items-center space-x-2 text-center">
+              <p className="text-lg">-BATTLE IN PROGRESS -</p>
+              <div className="flex flex-row items-center mt-3 space-x-2 text-center">
                 <p>
                   Against $
                   {(wager as WagerExport).wagers
@@ -273,7 +274,7 @@ const Status: NextPage = () => {
                         'font-bold ml-2',
                       )}
                     >
-                      {wizardChange.change < 0 ? '-' : '+'}
+                      {wizardChange.change < 0 ? '' : '+'}
                       {(wizardChange.change * 100).toFixed(2)}%
                     </p>
                   )}
@@ -300,7 +301,7 @@ const Status: NextPage = () => {
                         'font-bold ml-2',
                       )}
                     >
-                      {otherWizardChange.change < 0 ? '-' : '+'}
+                      {otherWizardChange.change < 0 ? '' : '+'}
                       {(otherWizardChange.change * 100).toFixed(2)}%
                     </p>
                   )}
