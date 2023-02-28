@@ -33,6 +33,23 @@ const Wager: NextPage = () => {
 
   const [wizards, setWizards] = useState<NFT[]>()
   const [selectedWizard, setSelectedWizard] = useState<number>(0)
+  const [isSelectedWizardWagered, setIsSelectedWizardWagered] = useState<
+    boolean
+  >(false)
+
+  useEffect(() => {
+    if (!client?.wagerClient || !wizards) return
+    client.wagerClient
+      .tokenStatus({
+        token: [COLLECTION_ADDRESS, parseInt(wizards[selectedWizard].tokenId)],
+      })
+      .then((status) => {
+        setIsSelectedWizardWagered(
+          'matchmaking' in Object(status.token_status) ||
+            'wager' in Object(status.token_status),
+        )
+      })
+  }, [selectedWizard, wizards, client?.wagerClient])
 
   useEffect(() => {
     const timeout = setTimeout(() => router.push('/'), 5000)
@@ -172,61 +189,75 @@ const Wager: NextPage = () => {
           }
         </p>
         <div className="flex justify-center w-full">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col w-2/3 space-y-3 md:w-1/2 lg:w-1/3"
-          >
-            <select
-              {...register('versus', { required: true })}
-              className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
-            >
-              <option disabled selected>
-                Versus
-              </option>
-              {currencies
-                .filter(
-                  (currency) =>
-                    currency !=
-                    wizards[selectedWizard].traits.find(
-                      (trait) => trait.name === 'token',
-                    )?.value,
-                )
-                .map((currency) => (
-                  <option value={currency}>{currency.toUpperCase()}</option>
-                ))}
-            </select>
-            <select
-              {...register('amount', { required: true })}
-              className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
-            >
-              <option disabled selected>
-                Wager Amount
-              </option>
-              {config.amounts.map((amount) => (
-                <option value={amount}>
-                  {parseInt(amount) / 1_000_000} STARS
-                </option>
-              ))}
-            </select>
-            <select
-              {...register('duration', { required: true })}
-              className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
-            >
-              <option disabled selected>
-                Wager Duration
-              </option>
-              {config.expiries.map((expiry) => (
-                <option value={expiry}>{expiry / 60} min</option>
-              ))}
-            </select>
+          {isSelectedWizardWagered ? (
             <button
               id="connect-wallet"
-              className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
-              type="submit"
+              className="inline-flex items-center justify-center px-12 pt-4 pb-1 mt-12 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
+              onClick={() =>
+                router.push(
+                  `/status?token_id=${wizards[selectedWizard].tokenId}`,
+                )
+              }
             >
-              Duel!
+              View current duel
             </button>
-          </form>
+          ) : (
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col w-2/3 space-y-3 md:w-1/2 lg:w-1/3"
+            >
+              <select
+                {...register('versus', { required: true })}
+                className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+              >
+                <option disabled selected>
+                  Versus
+                </option>
+                {currencies
+                  .filter(
+                    (currency) =>
+                      currency !=
+                      wizards[selectedWizard].traits.find(
+                        (trait) => trait.name === 'token',
+                      )?.value,
+                  )
+                  .map((currency) => (
+                    <option value={currency}>{currency.toUpperCase()}</option>
+                  ))}
+              </select>
+              <select
+                {...register('amount', { required: true })}
+                className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+              >
+                <option disabled selected>
+                  Wager Amount
+                </option>
+                {config.amounts.map((amount) => (
+                  <option value={amount}>
+                    {parseInt(amount) / 1_000_000} STARS
+                  </option>
+                ))}
+              </select>
+              <select
+                {...register('duration', { required: true })}
+                className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+              >
+                <option disabled selected>
+                  Wager Duration
+                </option>
+                {config.expiries.map((expiry) => (
+                  <option value={expiry}>{expiry / 60} min</option>
+                ))}
+              </select>
+              <button
+                id="connect-wallet"
+                className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
+                type="submit"
+              >
+                Duel!
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </main>
