@@ -254,7 +254,7 @@ const Status: NextPage = () => {
       id="main"
       className="flex items-center justify-center w-screen h-screen md:overflow-hidden bg-theme-blue"
     >
-      <Spinner className="w-8 h-8 text-white" />
+      <Spinner className="w-16 h-16 text-white" />
     </main>
   )
 }
