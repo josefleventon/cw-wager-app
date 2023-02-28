@@ -1,0 +1,13 @@
+@font-face {
+  font-family: Minecraftia;
+  src: url(../public/fonts/Minecraftia.ttf);
+}
+
+@font-face {
+  font-family: Monofonto;
+  src: url(../public/fonts/Monofonto.otf);
+}
+
+#main {
+  font-family: Minecraftia;
+}
