@@ -15,6 +15,8 @@ import { Spinner } from 'components'
 import { MintImage } from 'components/MediaView'
 import { WagerMessageComposer } from 'types/Wager.message-composer'
 import { useTx } from 'contexts/tx'
+import { JobDetail, Change } from 'types/agent'
+import { classNames } from 'util/css'
 
 const Status: NextPage = () => {
   const { disconnect, address } = useChain()
@@ -28,6 +30,37 @@ const Status: NextPage = () => {
   const [data, setData] = useState<TokenStatus>()
   const [wizard, setWizard] = useState<NFT>()
   const [otherWizard, setOtherWizard] = useState<NFT>()
+
+  const [job, setJob] = useState<JobDetail>()
+  const [wizardChange, setWizardChange] = useState<Change>()
+  const [otherWizardChange, setOtherWizardChange] = useState<Change>()
+
+  useEffect(() => {
+    if (!job?.change) return
+    setWizardChange(
+      job?.change.find(
+        (change) =>
+          change.denom.toLowerCase() ===
+          (wager as WagerExport).wagers
+            .find(
+              (wager) => wager.token.token_id == parseInt(token_id as string),
+            )
+            ?.currency.toLowerCase(),
+      ),
+    )
+
+    setOtherWizardChange(
+      job?.change.find(
+        (change) =>
+          change.denom.toLowerCase() ===
+          (wager as WagerExport).wagers
+            .find(
+              (wager) => wager.token.token_id != parseInt(token_id as string),
+            )
+            ?.currency.toLowerCase(),
+      ),
+    )
+  }, [job])
 
   const { token_id } = router.query
 
@@ -47,6 +80,11 @@ const Status: NextPage = () => {
             )
             ?.token.token_id.toString()!,
         ).then((token) => setOtherWizard(token))
+        fetch(process.env.NEXT_PUBLIC_AGENT_API! + '/jobs/' + token_id)
+          .then((res) => res.json())
+          .then((json: { job: JobDetail | null }) => {
+            if (json.job) setJob(json.job)
+          })
         return wager
     }
   }, [data, status])
@@ -207,7 +245,7 @@ const Status: NextPage = () => {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 mt-6 md:mt-12 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 mt-6 md:mt-8 md:grid-cols-3">
               <div className="flex justify-center">
                 <div className="w-32 h-32 transform scale-150 md:scale-100 md:w-96 md:h-96">
                   <MintImage
@@ -217,20 +255,56 @@ const Status: NextPage = () => {
                 </div>
               </div>
               <div className="flex flex-col md:justify-center">
-                <p className="font-bold">
-                  $
-                  {wizard.traits.find((trait) => trait.name === 'token')?.value}
-                </p>
+                <div className="flex flex-row items-center justify-center">
+                  <p className="font-bold">
+                    $
+                    {
+                      wizard.traits.find((trait) => trait.name === 'token')
+                        ?.value
+                    }
+                  </p>
+                  {wizardChange && <p className="ml-2">&#9679;</p>}
+                  {wizardChange && (
+                    <p
+                      className={classNames(
+                        wizardChange.change < 0
+                          ? 'text-red-500'
+                          : 'text-green-500',
+                        'font-bold ml-2',
+                      )}
+                    >
+                      {wizardChange.change < 0 ? '-' : '+'}
+                      {(wizardChange.change * 100).toFixed(2)}%
+                    </p>
+                  )}
+                </div>
                 <p className="mt-4 text-xl">{wizard.name}</p>
                 <p className="mt-4 text-4xl md:mt-12 md:text-6xl">VS</p>
                 <p className="mt-2 text-xl md:mt-4">{otherWizard?.name}</p>
-                <p className="mt-4 font-bold">
-                  $
-                  {
-                    otherWizard?.traits.find((trait) => trait.name === 'token')
-                      ?.value
-                  }
-                </p>
+                <div className="flex flex-row items-center justify-center mt-4">
+                  <p className="font-bold">
+                    $
+                    {
+                      otherWizard?.traits.find(
+                        (trait) => trait.name === 'token',
+                      )?.value
+                    }
+                  </p>
+                  {otherWizardChange && <p className="ml-2">&#9679;</p>}
+                  {otherWizardChange && (
+                    <p
+                      className={classNames(
+                        otherWizardChange.change < 0
+                          ? 'text-red-500'
+                          : 'text-green-500',
+                        'font-bold ml-2',
+                      )}
+                    >
+                      {otherWizardChange.change < 0 ? '-' : '+'}
+                      {(otherWizardChange.change * 100).toFixed(2)}%
+                    </p>
+                  )}
+                </div>
               </div>
               <div className="flex justify-center">
                 <div className="w-32 h-32 transform scale-150 md:scale-100 md:w-96 md:h-96">
@@ -245,6 +319,12 @@ const Status: NextPage = () => {
                 </div>
               </div>
             </div>
+            <h1 className="mt-6 text-2xl font-black tracking-wider uppercase md:text-3xl">
+              {job?.current_winner?.token_id == token_id && 'You are winning'}
+              {job?.current_winner?.token_id != token_id &&
+                job?.current_winner?.token_id &&
+                'Your opponent is winning'}
+            </h1>
           </>
         )}
       </div>
