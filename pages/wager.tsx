@@ -136,7 +136,7 @@ const Wager: NextPage = () => {
       >
         Disconnect
       </button>
-      {wizards.length < 0 ? (
+      {wizards.length > 0 ? (
         <div className="w-full max-w-3xl text-center text-white">
           <h1 className="text-3xl font-black tracking-wider uppercase md:text-5xl">
             Select your Wizard
