@@ -136,136 +136,138 @@ const Wager: NextPage = () => {
       >
         Disconnect
       </button>
-      <div className="w-full max-w-3xl text-center text-white">
-        <h1 className="text-3xl font-black tracking-wider uppercase md:text-5xl">
-          Select your Wizard
-        </h1>
-        <div className="flex justify-center">
-          <div className="flex flex-row items-center mt-6 space-x-4 md:space-x-12">
-            <a
-              onClick={() => {
-                if (selectedWizard < 1) return
-                setSelectedWizard(selectedWizard - 1)
-              }}
-            >
-              <ChevronLeftIcon
-                className={classNames(
-                  selectedWizard < 1
-                    ? 'text-gray-300'
-                    : 'text-white cursor-pointer',
-                  'w-12 h-12',
-                )}
-              />
-            </a>
-            <div className="w-64 h-64">
-              <MintImage
-                // src={wizards[selectedWizard].media.image.jpgLink}
-                src={
-                  wizards[selectedWizard]
-                    ? `https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizards[selectedWizard].tokenId}.svg`
-                    : undefined
-                }
-                alt={wizards[selectedWizard].name}
-              />
+      {wizards.length < 0 ? (
+        <div className="w-full max-w-3xl text-center text-white">
+          <h1 className="text-3xl font-black tracking-wider uppercase md:text-5xl">
+            Select your Wizard
+          </h1>
+          <div className="flex justify-center">
+            <div className="flex flex-row items-center mt-6 space-x-4 md:space-x-12">
+              <a
+                onClick={() => {
+                  if (selectedWizard < 1) return
+                  setSelectedWizard(selectedWizard - 1)
+                }}
+              >
+                <ChevronLeftIcon
+                  className={classNames(
+                    selectedWizard < 1
+                      ? 'text-gray-300'
+                      : 'text-white cursor-pointer',
+                    'w-12 h-12',
+                  )}
+                />
+              </a>
+              <div className="w-64 h-64">
+                <MintImage
+                  // src={wizards[selectedWizard].media.image.jpgLink}
+                  src={`https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizards[selectedWizard].tokenId}.svg`}
+                  alt={wizards[selectedWizard].name}
+                />
+              </div>
+              <a
+                onClick={() => {
+                  if (selectedWizard >= wizards.length - 1) return
+                  setSelectedWizard(selectedWizard + 1)
+                }}
+              >
+                <ChevronRightIcon
+                  className={classNames(
+                    selectedWizard >= wizards.length - 1
+                      ? 'text-gray-300'
+                      : 'text-white cursor-pointer',
+                    'w-12 h-12',
+                  )}
+                />
+              </a>
             </div>
-            <a
-              onClick={() => {
-                if (selectedWizard >= wizards.length - 1) return
-                setSelectedWizard(selectedWizard + 1)
-              }}
-            >
-              <ChevronRightIcon
-                className={classNames(
-                  selectedWizard >= wizards.length - 1
-                    ? 'text-gray-300'
-                    : 'text-white cursor-pointer',
-                  'w-12 h-12',
-                )}
-              />
-            </a>
           </div>
-        </div>
-        <p className="mt-4 text-xl">{wizards[selectedWizard].name}</p>
-        <p className="mt-1 font-bold">
-          $
-          {
-            wizards[selectedWizard].traits.find(
-              (trait) => trait.name === 'token',
-            )?.value
-          }
-        </p>
-        <div className="flex justify-center w-full">
-          {isSelectedWizardWagered ? (
-            <button
-              id="connect-wallet"
-              className="inline-flex items-center justify-center px-12 pt-4 pb-1 mt-12 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
-              onClick={() =>
-                router.push(
-                  `/status?token_id=${wizards[selectedWizard].tokenId}`,
-                )
-              }
-            >
-              View current duel
-            </button>
-          ) : (
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col w-2/3 space-y-3 md:w-1/2 lg:w-1/3"
-            >
-              <select
-                {...register('versus', { required: true })}
-                className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
-              >
-                <option value={'null'} disabled selected>
-                  Versus
-                </option>
-                {currencies
-                  .filter(
-                    (currency) =>
-                      currency !=
-                      wizards[selectedWizard].traits.find(
-                        (trait) => trait.name === 'token',
-                      )?.value,
-                  )
-                  .map((currency) => (
-                    <option value={currency}>{currency.toUpperCase()}</option>
-                  ))}
-              </select>
-              <select
-                {...register('amount', { required: true })}
-                className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
-              >
-                <option value={'null'} disabled selected>
-                  Wager Amount
-                </option>
-                {config.amounts.map((amount) => (
-                  <option value={amount}>
-                    {parseInt(amount) / 1_000_000} STARS
-                  </option>
-                ))}
-              </select>
-              <select
-                {...register('duration', { required: true })}
-                className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
-              >
-                <option value={'null'} disabled selected>
-                  Wager Duration
-                </option>
-                {config.expiries.map((expiry) => (
-                  <option value={expiry}>{expiry / 60} min</option>
-                ))}
-              </select>
+          <p className="mt-4 text-xl">{wizards[selectedWizard].name}</p>
+          <p className="mt-1 font-bold">
+            $
+            {
+              wizards[selectedWizard].traits.find(
+                (trait) => trait.name === 'token',
+              )?.value
+            }
+          </p>
+          <div className="flex justify-center w-full">
+            {isSelectedWizardWagered ? (
               <button
                 id="connect-wallet"
-                className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
-                type="submit"
+                className="inline-flex items-center justify-center px-12 pt-4 pb-1 mt-12 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
+                onClick={() =>
+                  router.push(
+                    `/status?token_id=${wizards[selectedWizard].tokenId}`,
+                  )
+                }
               >
-                Duel!
+                View current duel
               </button>
-            </form>
-          )}
+            ) : (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col w-2/3 space-y-3 md:w-1/2 lg:w-1/3"
+              >
+                <select
+                  {...register('versus', { required: true })}
+                  className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+                >
+                  <option value={'null'} disabled selected>
+                    Versus
+                  </option>
+                  {currencies
+                    .filter(
+                      (currency) =>
+                        currency !=
+                        wizards[selectedWizard].traits.find(
+                          (trait) => trait.name === 'token',
+                        )?.value,
+                    )
+                    .map((currency) => (
+                      <option value={currency}>{currency.toUpperCase()}</option>
+                    ))}
+                </select>
+                <select
+                  {...register('amount', { required: true })}
+                  className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+                >
+                  <option value={'null'} disabled selected>
+                    Wager Amount
+                  </option>
+                  {config.amounts.map((amount) => (
+                    <option value={amount}>
+                      {parseInt(amount) / 1_000_000} STARS
+                    </option>
+                  ))}
+                </select>
+                <select
+                  {...register('duration', { required: true })}
+                  className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+                >
+                  <option value={'null'} disabled selected>
+                    Wager Duration
+                  </option>
+                  {config.expiries.map((expiry) => (
+                    <option value={expiry}>{expiry / 60} min</option>
+                  ))}
+                </select>
+                <button
+                  id="connect-wallet"
+                  className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
+                  type="submit"
+                >
+                  Duel!
+                </button>
+              </form>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex items-center justify-center">
+          <p>You do not own any wizards.</p>
+        </div>
+      )}
     </main>
   ) : (
     <main
