@@ -56,7 +56,6 @@ const Wager: NextPage = () => {
     if (!address) return
     getInventory(address).then((wizards) => {
       setWizards(wizards)
-      console.log(wizards)
       clearTimeout(timeout)
     })
   }, [address])
@@ -79,8 +78,6 @@ const Wager: NextPage = () => {
         String(duration) == 'null'
       )
         return
-
-      console.log(versus, amount, duration)
 
       const messageComposer = new WagerMessageComposer(
         address,
