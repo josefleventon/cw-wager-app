@@ -17,7 +17,7 @@ import { WagerMessageComposer } from 'types/Wager.message-composer'
 import { COLLECTION_ADDRESS } from 'util/constants'
 
 interface FormValues {
-  versus: Currency[]
+  versus: Currency
   amount: number
   duration: number
 }
@@ -73,7 +73,7 @@ const Wager: NextPage = () => {
         !address ||
         !client?.wagerContract ||
         !wizards ||
-        versus.length < 1 ||
+        (versus as string) == 'null' ||
         String(amount) == 'null' ||
         String(duration) == 'null'
       )
@@ -95,7 +95,7 @@ const Wager: NextPage = () => {
           currency: wizards[selectedWizard].traits
             .find((trait) => trait.name === 'token')
             ?.value.toLowerCase() as Currency,
-          against_currencies: versus,
+          against_currencies: [versus],
           expiry: parseInt(duration.toString()),
         },
         [
@@ -210,7 +210,6 @@ const Wager: NextPage = () => {
                 className="flex flex-col w-2/3 space-y-3 md:w-1/2 lg:w-1/3"
               >
                 <select
-                  multiple
                   {...register('versus', { required: true })}
                   className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
                 >

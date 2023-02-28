@@ -227,7 +227,7 @@ const Status: NextPage = () => {
         )}
         {status === 'wager' && (
           <>
-            <div className="flex flex-col justify-center mt-4 text-lg">
+            <div className="flex flex-col items-center mt-4 text-lg">
               <p className="text-lg">- BATTLE IN PROGRESS -</p>
               <div className="flex flex-row items-center mt-3 space-x-2 text-center">
                 <p>
