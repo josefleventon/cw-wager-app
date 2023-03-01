@@ -204,7 +204,7 @@ const Status: NextPage = () => {
                 </p>
               </div>
             </div>
-            <div className="flex justify-center mt-12">
+            <div className="flex justify-center mt-12 left-wizard">
               <div className="w-64 h-64">
                 <MintImage
                   src={`https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizard.tokenId}.svg`}
@@ -248,7 +248,7 @@ const Status: NextPage = () => {
             </div>
             <div className="grid grid-cols-1 gap-4 mt-6 md:mt-8 md:grid-cols-3">
               <div className="flex justify-center">
-                <div className="w-32 h-32 transform scale-150 md:scale-100 md:w-96 md:h-96">
+                <div className="w-32 h-32 transform scale-150 md:scale-100 md:w-96 md:h-96 left-wizard">
                   <MintImage
                     src={`https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizard.tokenId}.svg`}
                     alt={wizard.name}
@@ -275,7 +275,7 @@ const Status: NextPage = () => {
                       )}
                     >
                       {wizardChange.change < 0 ? '' : '+'}
-                      {(wizardChange.change * 100).toFixed(2)}%
+                      {(wizardChange.change * 100).toFixed(4)}%
                     </p>
                   )}
                 </div>
@@ -302,13 +302,13 @@ const Status: NextPage = () => {
                       )}
                     >
                       {otherWizardChange.change < 0 ? '' : '+'}
-                      {(otherWizardChange.change * 100).toFixed(2)}%
+                      {(otherWizardChange.change * 100).toFixed(4)}%
                     </p>
                   )}
                 </div>
               </div>
               <div className="flex justify-center">
-                <div className="w-32 h-32 transform scale-150 md:scale-100 md:w-96 md:h-96">
+                <div className="w-32 h-32 transform scale-150 md:scale-100 md:w-96 md:h-96 right-wizard">
                   <MintImage
                     src={
                       otherWizard

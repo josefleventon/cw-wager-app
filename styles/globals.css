@@ -24,9 +24,21 @@ svg,
   display: none;
 }
 
+.right-wizard #pxlwz {
+  transform: scale(-1.2) scaleY(-1);
+}
+.right-wizard .token {
+  transform: scaleX(-1);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
 @media (min-width: 768px) {
-  #pxlwz {
+  .left-wizard #pxlwz {
     transform: scale(150%);
+  }
+  .right-wizard #pxlwz {
+    transform: scale(-1.5) scaleY(-1);
   }
 }
 

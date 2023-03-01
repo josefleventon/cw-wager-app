@@ -108,7 +108,7 @@ const Wager: NextPage = () => {
         [msg],
         {
           toast: {
-            title: 'Duel initiated!',
+            title: 'Matchmaking started!',
           },
         },
         () => {
@@ -156,7 +156,7 @@ const Wager: NextPage = () => {
                   )}
                 />
               </a>
-              <div className="w-64 h-64">
+              <div className="w-64 h-64 left-wizard">
                 <MintImage
                   // src={wizards[selectedWizard].media.image.jpgLink}
                   src={`https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizards[selectedWizard].tokenId}.svg`}
