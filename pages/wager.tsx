@@ -108,7 +108,7 @@ const Wager: NextPage = () => {
         [msg],
         {
           toast: {
-            title: 'Battle Initiated!',
+            title: 'Duel initiated!',
           },
         },
         () => {
