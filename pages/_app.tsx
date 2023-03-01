@@ -17,10 +17,10 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
       <WalletProvider>
         <TxProvider>
           <MetaTags
-            title="Wizard Duel"
-            description="Duel your Pixel Wizard against other wizards. Who is the wisest?"
-            image="https://i.ibb.co/KFkThny/image.png"
-            ogImage="https://i.ibb.co/KFkThny/image.png"
+            title="Token Dueling"
+            description="🪄 Duel your Pixel Wizard against other wizards. Prepare your knowledge, place your bet and show who is truely the wisest!"
+            image="https://pixelwizards.art/wp-content/uploads/2023/03/tokendueling-min.jpg"
+            ogImage="https://pixelwizards.art/wp-content/uploads/2023/03/tokendueling-min.jpg"
             url="https://duel.pixelwizards.art"
           />
           <main className="w-screen min-h-screen overflow-x-hidden text-white bg-bg">
