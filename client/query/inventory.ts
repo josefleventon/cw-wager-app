@@ -38,6 +38,8 @@ export const getInventory = async (address: string) => {
     },
   })
 
+  console.log(data)
+
   return data.tokens.tokens as NFT[]
 }
 

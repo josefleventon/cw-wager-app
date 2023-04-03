@@ -14,7 +14,7 @@ import { Config, currencies, Currency } from 'types/Wager.types'
 import { useStargazeClient } from 'client'
 import { useTx } from 'contexts/tx'
 import { WagerMessageComposer } from 'types/Wager.message-composer'
-import { COLLECTION_ADDRESS } from 'util/constants'
+import useToaster, { ToastTypes } from 'hooks/useToaster'
 
 interface FormValues {
   versus: Currency
@@ -27,9 +27,12 @@ const Wager: NextPage = () => {
   const { client } = useStargazeClient()
   const router = useRouter()
 
+  const { currency, amount, expiry, wizard_currency } = router.query
+
   const { register, handleSubmit } = useForm<FormValues>()
 
   const { tx } = useTx()
+  const toaster = useToaster()
 
   const [wizards, setWizards] = useState<NFT[]>()
   const [selectedWizard, setSelectedWizard] = useState<number>(0)
@@ -37,11 +40,15 @@ const Wager: NextPage = () => {
     boolean
   >(false)
 
+  const [didShowIncompatToast, setDidShowIncompatToast] = useState<boolean>(
+    false,
+  )
+
   useEffect(() => {
     if (!client?.wagerClient || !wizards || wizards.length < 1) return
     client.wagerClient
       .tokenStatus({
-        token: [COLLECTION_ADDRESS, parseInt(wizards[selectedWizard].tokenId)],
+        token: parseInt(wizards[selectedWizard].tokenId),
       })
       .then((status) => {
         setIsSelectedWizardWagered(
@@ -57,6 +64,28 @@ const Wager: NextPage = () => {
     getInventory(address).then((wizards) => {
       setWizards(wizards)
       clearTimeout(timeout)
+
+      const query_index = wizard_currency
+        ? wizards.findIndex((wizard) => {
+            return (
+              wizard.traits
+                .find((trait) => trait.name === 'token')
+                ?.value.toLowerCase() ==
+              (wizard_currency as string).toLowerCase()
+            )
+          })
+        : -2
+
+      if (query_index == -1) {
+        if (didShowIncompatToast) return
+        setDidShowIncompatToast(true)
+        toaster.toast({
+          title: 'You do not have a compatible wizard...',
+          type: ToastTypes.Warning,
+        })
+      }
+
+      if (query_index >= 0) setSelectedWizard(query_index)
     })
   }, [address])
 
@@ -86,14 +115,11 @@ const Wager: NextPage = () => {
 
       const msg = messageComposer.wager(
         {
-          token: [
-            COLLECTION_ADDRESS,
-            parseInt(wizards[selectedWizard].tokenId),
-          ],
+          token: parseInt(wizards[selectedWizard].tokenId),
           currency: wizards[selectedWizard].traits
             .find((trait) => trait.name === 'token')
             ?.value.toLowerCase() as Currency,
-          against_currencies: [versus],
+          againstCurrencies: [versus],
           expiry: parseInt(duration.toString()),
         },
         [
@@ -122,24 +148,45 @@ const Wager: NextPage = () => {
   return wizards && config ? (
     <main
       id="main"
-      className="flex items-center justify-center w-screen h-screen md:overflow-hidden bg-theme-blue"
+      className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
     >
-      <button
-        id="connect-wallet"
-        className="absolute inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300 top-2 right-2"
-        onClick={() => {
-          disconnect()
-          router.push('/')
-        }}
-      >
-        Disconnect
-      </button>
+      <div className="absolute flex flex-col space-y-2 top-2 right-2">
+        <button
+          id="connect-wallet"
+          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
+          onClick={() => {
+            disconnect()
+            router.push('/')
+          }}
+        >
+          Disconnect
+        </button>
+        <button
+          id="connect-wallet"
+          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-white bg-theme-blue"
+          onClick={() => router.push('/wager')}
+        >
+          Setup duel
+        </button>
+        <button
+          id="connect-wallet"
+          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
+          onClick={() => router.push('/queue')}
+        >
+          View queues
+        </button>
+        <button
+          id="connect-wallet"
+          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
+          onClick={() => router.push('/duels')}
+        >
+          Current duels
+        </button>
+      </div>
       {wizards.length > 0 ? (
-        <div className="w-full max-w-3xl text-center text-white">
-          <h1 className="text-3xl font-black tracking-wider uppercase md:text-5xl">
-            Select your Wizard
-          </h1>
-          <div className="flex justify-center">
+        <div className="w-full max-w-3xl text-center text-white md:mt-24">
+          <img src="/logo.svg" alt="PW LOGO" className="w-auto h-8 mx-auto" />
+          <div className="flex justify-center mt-8">
             <div className="flex flex-row items-center mt-6 space-x-4 md:space-x-12">
               <a
                 onClick={() => {
@@ -189,7 +236,7 @@ const Wager: NextPage = () => {
               )?.value
             }
           </p>
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center w-full mt-8">
             {isSelectedWizardWagered ? (
               <button
                 id="connect-wallet"
@@ -210,6 +257,7 @@ const Wager: NextPage = () => {
                 <select
                   {...register('versus', { required: true })}
                   className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+                  defaultValue={currency}
                 >
                   <option value={'null'} disabled selected>
                     Versus
@@ -229,6 +277,7 @@ const Wager: NextPage = () => {
                 <select
                   {...register('amount', { required: true })}
                   className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+                  defaultValue={amount}
                 >
                   <option value={'null'} disabled selected>
                     Wager Amount
@@ -242,6 +291,7 @@ const Wager: NextPage = () => {
                 <select
                   {...register('duration', { required: true })}
                   className="w-full pt-3 pl-2 mt-2 text-lg text-black bg-white border-2 border-black rounded-none focus:ring-offset-theme-blue"
+                  defaultValue={expiry}
                 >
                   <option value={'null'} disabled selected>
                     Wager Duration

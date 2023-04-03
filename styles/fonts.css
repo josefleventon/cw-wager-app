@@ -8,6 +8,6 @@
   src: url(../public/fonts/Monofonto.otf);
 }
 
-#main {
+* {
   font-family: Minecraftia;
 }

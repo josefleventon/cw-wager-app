@@ -1,4 +1,4 @@
-import { NFT, WagerExport } from './Wager.types'
+import { Currency, NFT, WagerExport } from './Wager.types'
 
 interface Price {
   readonly denom: string
@@ -11,14 +11,14 @@ export interface Change {
 }
 
 export interface Job {
-  wager: WagerExport
-  prices: [Price, Price]
-}
-
-export interface JobDetail {
-  wager: Job['wager']
-  prev_prices: Job['prices']
-  current_prices: Job['prices']
+  wagers: {
+    token: NFT
+    currency: Currency
+  }[]
+  expires_at: string
+  amount: string
+  prev_prices: [Price, Price]
+  current_prices: [Price, Price]
   change: [Change, Change]
   current_winner: NFT | null
 }
