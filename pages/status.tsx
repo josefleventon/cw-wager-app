@@ -153,29 +153,17 @@ const Status: NextPage = () => {
         id="main"
         className="flex items-center justify-center w-screen h-screen md:overflow-hidden"
       >
-        <div className="absolute flex flex-row items-center space-x-4 top-2 right-2">
-          {/* <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => {
-            router.push('/wager')
-          }}
-        >
-          Duel another wizard
-        </button>
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => {
-            disconnect()
-            router.push('/')
-          }}
-        >
-          Disconnect
-        </button> */}
+        <div className="hidden md:block absolute flex flex-col space-y-2 top-2 left-2">
+          <button
+            id="connect-wallet"
+            className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
+            onClick={() => router.push('/wager')}
+          >
+            Return
+          </button>
         </div>
 
-        <div className="w-full max-w-6xl text-center text-white">
+        <div className="w-full max-w-6xl text-center text-white duel-arena">
           {status === 'matchmaking' && (
             <>
               <div className="flex justify-center mt-12 left-wizard">
@@ -201,27 +189,8 @@ const Status: NextPage = () => {
           )}
           {status === 'wager' && (
             <>
-              {/* <div className="flex flex-col items-center mt-4 text-lg">
-              <p className="text-lg">- DUEL IN PROGRESS -</p>
-              <div className="flex flex-row items-center mt-3 space-x-2 text-center">
-                <p>
-                  Against $
-                  {(wager as WagerExport).wagers
-                    .find(
-                      (wager) =>
-                        wager.token.token_id != parseInt(token_id as string),
-                    )
-                    ?.currency.toUpperCase()}
-                </p>
-                <p>&#9679;</p>
-                <p>
-                  For {parseInt((wager as WagerExport).amount) / 1_000_000}{' '}
-                  STARS
-                </p>
-              </div>
-            </div> */}
               <div className="grid grid-cols-1 gap-4 mt-6 md:mt-8 md:grid-cols-3">
-                <div className="flex justify-center">
+                <div className="flex justify-center order-3 md:order-1">
                   <div className="relative w-32 h-32 transform scale-150 md:top-32 md:left-24 lg:top-24 xl:top-40 md:scale-105 lg:scale-110 xl:scale-125 md:w-96 md:h-96 left-wizard">
                     <MintImage
                       src={`https://ipfs-gw.stargaze-apis.com/ipfs/bafybeiet7wzhih3zwcmdi2kojzpkrhjdrp7otaineans5zgg6e26yuj4qu/${wizard.tokenId}.svg`}
@@ -229,59 +198,10 @@ const Status: NextPage = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col md:justify-center">
-                  {/* <div className="flex flex-row items-center justify-center">
-                  <p className="font-bold">
-                    $
-                    {
-                      wizard.traits.find((trait) => trait.name === 'token')
-                        ?.value
-                    }
-                  </p>
-                  {wizardChange && <p className="ml-2">&#9679;</p>}
-                  {wizardChange && (
-                    <p
-                      className={classNames(
-                        wizardChange.change < 0
-                          ? 'text-red-500'
-                          : 'text-green-500',
-                        'font-bold ml-2',
-                      )}
-                    >
-                      {wizardChange.change < 0 ? '' : '+'}
-                      {(wizardChange.change * 100).toFixed(4)}%
-                    </p>
-                  )}
-                </div> */}
-                  {/* <p className="mt-4 text-xl">{wizard.name}</p> */}
+                <div className="flex flex-col md:justify-center order-2">
                   <p className="mt-4 text-4xl md:mt-12 md:text-6xl">VS</p>
-                  {/* <p className="mt-2 text-xl md:mt-4">{otherWizard?.name}</p> */}
-                  {/* <div className="flex flex-row items-center justify-center mt-4">
-                  <p className="font-bold">
-                    $
-                    {
-                      otherWizard?.traits.find(
-                        (trait) => trait.name === 'token',
-                      )?.value
-                    }
-                  </p>
-                  {otherWizardChange && <p className="ml-2">&#9679;</p>}
-                  {otherWizardChange && (
-                    <p
-                      className={classNames(
-                        otherWizardChange.change < 0
-                          ? 'text-red-500'
-                          : 'text-green-500',
-                        'font-bold ml-2',
-                      )}
-                    >
-                      {otherWizardChange.change < 0 ? '' : '+'}
-                      {(otherWizardChange.change * 100).toFixed(4)}%
-                    </p>
-                  )}
-                </div> */}
                 </div>
-                <div className="flex justify-center">
+                <div className="flex justify-center order-1 md:order-3">
                   <div className="relative w-32 h-32 transform scale-150 lg:right-16 lg:bottom-16 xl:left-16 md:scale-100 md:w-96 md:h-96 right-wizard">
                     <MintImage
                       src={
@@ -298,8 +218,8 @@ const Status: NextPage = () => {
           )}
         </div>
       </main>
-      <div className="absolute flex flex-col space-y-2 bottom-4 right-4">
-        <h1 className="text-xl text-right uppercase md:text-2xl">
+      <div className="absolute flex flex-col space-y-2 bottom-24 md:bottom-4 right-4">
+        <h1 className="text-sm text-right uppercase md:text-2xl">
           {status === 'wager'
             ? `Duel ends @ ${new Date(
                 parseInt((wager as WagerExport).expires_at) / 1_000_000,
@@ -310,7 +230,7 @@ const Status: NextPage = () => {
             : 'Matchmaking...'}
         </h1>
         {status === 'wager' && (
-          <h1 className="mt-6 text-2xl font-black tracking-wider text-right md:text-3xl">
+          <h1 className="mt-6 text-lg font-black tracking-wider text-right md:text-3xl">
             {job?.current_winner?.token_id == token_id && 'You are winning'}
             {job?.current_winner?.token_id != token_id &&
               job?.current_winner?.token_id &&
@@ -320,15 +240,15 @@ const Status: NextPage = () => {
         )}
       </div>
       <div
-        className="w-[30rem] absolute bottom-4 left-0 h-24 bg-theme-blue border-4 border-black"
+        className="w-full sm:w-[30rem] h-[5rem] md:h-24 bg-theme-blue absolute bottom-4 left-0"
         style={{
           clipPath: 'polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%)',
         }}
       >
         <div className="flex flex-col px-4 py-5 mr-24 space-y-2">
           <div className="flex flex-row items-center justify-between">
-            <p className="text-lg text-white">{wizard.name}</p>
-            <p className="text-lg text-white/50">
+            <p className="text-sm md:text-lg text-white">{wizard.name}</p>
+            <p className="text-sm md:text-lg text-white/50">
               {wizard.traits.find((trait) => trait.name === 'token')?.value}
             </p>
           </div>
@@ -342,7 +262,7 @@ const Status: NextPage = () => {
                   )}
                 >
                   {wizardChange.change < 0 ? '' : '+'}
-                  {(wizardChange.change * 100).toFixed(2)}%
+                  {(wizardChange.change * 100).toFixed(4)}%
                 </p>
               )}
             </div>
@@ -362,15 +282,15 @@ const Status: NextPage = () => {
         </div>
       </div>
       <div
-        className="w-[30rem] h-24 absolute top-4 right-0 bg-theme-blue border-4 border-black"
+        className="w-full sm:w-[30rem] h-[5rem] md:h-24 absolute top-[4rem] md:top-4 right-0 bg-theme-blue battle-card-opponent"
         style={{
           clipPath: 'polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%)',
         }}
       >
         <div className="flex flex-col px-4 py-5 ml-24 space-y-2">
           <div className="flex flex-row-reverse items-center justify-between">
-            <p className="text-lg text-white">{otherWizard?.name}</p>
-            <p className="text-lg text-white/50">
+            <p className="text-sm md:text-lg text-white">{otherWizard?.name}</p>
+            <p className="text-sm md:text-lg text-white/50">
               {
                 otherWizard?.traits.find((trait) => trait.name === 'token')
                   ?.value
@@ -389,7 +309,7 @@ const Status: NextPage = () => {
                   )}
                 >
                   {otherWizardChange.change < 0 ? '' : '+'}
-                  {(otherWizardChange.change * 100).toFixed(2)}%
+                  {(otherWizardChange.change * 100).toFixed(4)}%
                 </p>
               )}
             </div>

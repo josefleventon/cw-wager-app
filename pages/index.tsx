@@ -18,9 +18,9 @@ const Home: NextPage = () => {
       className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
     >
       <div className="flex flex-col items-center w-full max-w-2xl mt-16 text-center text-white">
-        <img src="/logo.svg" alt="PW LOGO" className="w-auto h-6" />
+        <img src="/logo.svg" alt="PW LOGO" className="w-auto h-5 md:h-6" />
         <div className="flex flex-row items-start">
-          <h1 className="w-full mt-12 text-5xl font-black tracking-wider uppercase md:text-6xl">
+          <h1 className="w-full mt-12 text-3xl md:text-5xl font-black tracking-wider uppercase md:text-6xl">
             Token Dueling
           </h1>
           <p className="w-16 h-6 px-1 pt-2 mt-8 ml-2 text-xs font-bold tracking-wide text-black uppercase bg-white mix-blend-screen">
