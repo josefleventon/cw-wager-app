@@ -243,6 +243,7 @@ const Status: NextPage = () => {
         className="w-full sm:w-[30rem] h-[5rem] md:h-24 bg-theme-blue absolute bottom-4 left-0"
         style={{
           clipPath: 'polygon(0% 0%, 80% 0%, 100% 100%, 0% 100%)',
+          borderTop: '4px solid #E3FFFF',
         }}
       >
         <div className="flex flex-col px-4 py-5 mr-24 space-y-2">
@@ -285,6 +286,7 @@ const Status: NextPage = () => {
         className="w-full sm:w-[30rem] h-[5rem] md:h-24 absolute top-[4rem] md:top-4 right-0 bg-theme-blue battle-card-opponent"
         style={{
           clipPath: 'polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          borderBottom: '4px solid #E3FFFF',
         }}
       >
         <div className="flex flex-col px-4 py-5 ml-24 space-y-2">

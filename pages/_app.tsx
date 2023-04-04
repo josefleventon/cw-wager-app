@@ -61,7 +61,10 @@ const WalletInfo = () => {
 const MobHeader = () => {
   const { wallet } = useWallet()
   return (
-    <header className="md:hidden fixed w-full bg-theme-blue z-10 py-2 px-4">
+    <header className="md:hidden fixed w-full bg-theme-blue z-10 py-2 px-4"
+      style={{
+        borderBottom: '4px solid #E3FFFF',
+      }}>
       <div className="flex flex-row justify-between">
         <div className="flex flex-row items-center space-x-4 pt-3">
           <img src="/icons/profile.svg" className="w-auto h-6 -mt-2" />
@@ -97,7 +100,7 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
             src="https://pixelwizards.art/wp-content/uploads/2023/03/battle-bg-min-scaled.jpeg"
             className={classNames(
               !isPageStatus && 'brightness-50',
-              'absolute top-0 right-0 object-cover w-screen h-screen -z-10',
+              'absolute top-0 right-0 object-cover object-[75%] w-screen h-screen -z-10',
             )}
           />
           <main className="w-screen h-screen min-h-screen overflow-x-hidden flex flex-col justify-between text-white pb-6">
@@ -122,12 +125,12 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-row space-x-4">
-                  <a href="" rel="noopener noreferrer" target="_blank">
-                    <img src="" />
+                <div className="hidden md:flex flex-row space-x-16 pt-6">
+                  <a href="https://discord.gg/pixelwizards" rel="noopener noreferrer" target="_blank">
+                    <img src="icons/discord.svg" className="w-14 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80" />
                   </a>
-                  <a href="" rel="noopener noreferrer" target="_blank">
-                    <img src="" />
+                  <a href="https://twitter.com/pixlwizardsnft" rel="noopener noreferrer" target="_blank">
+                    <img src="icons/twitter.svg" className="w-12 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"/>
                   </a>
                 </div>
                 <WalletInfo />
