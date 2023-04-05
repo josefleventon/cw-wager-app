@@ -148,25 +148,15 @@ const Wager: NextPage = () => {
   return wizards && config ? (
     <main
       id="main"
-      className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
+      className="flex items-center justify-center w-screen mb-5"
     >
-      <div className="absolute flex flex-col space-y-2 top-2 right-2">
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => {
-            disconnect()
-            router.push('/')
-          }}
-        >
-          Disconnect
-        </button>
+      <div className="hidden md:block absolute flex flex-col space-x-2 top-2 left-2">
         <button
           id="connect-wallet"
           className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-white bg-theme-blue"
           onClick={() => router.push('/wager')}
         >
-          Setup duel
+          Create duel
         </button>
         <button
           id="connect-wallet"
@@ -182,10 +172,19 @@ const Wager: NextPage = () => {
         >
           Current duels
         </button>
+        <button
+          id="connect-wallet"
+          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
+          onClick={() => {
+            disconnect()
+            router.push('/')
+          }}
+        >
+          Disconnect
+        </button>
       </div>
       {wizards.length > 0 ? (
         <div className="w-full max-w-3xl text-center text-white md:mt-24">
-          <img src="/logo.svg" alt="PW LOGO" className="w-auto h-8 mx-auto" />
           <div className="flex justify-center mt-8">
             <div className="flex flex-row items-center mt-6 space-x-4 md:space-x-12">
               <a

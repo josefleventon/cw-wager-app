@@ -45,23 +45,13 @@ const Duels: NextPage = () => {
       id="main"
       className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
     >
-      <div className="absolute flex flex-col space-y-2 top-2 right-2">
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => {
-            disconnect()
-            router.push('/')
-          }}
-        >
-          Disconnect
-        </button>
+      <div className="hidden md:block absolute flex flex-row space-x-2 top-2 left-2">
         <button
           id="connect-wallet"
           className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
           onClick={() => router.push('/wager')}
         >
-          Setup duel
+          Create duel
         </button>
         <button
           id="connect-wallet"
@@ -76,6 +66,16 @@ const Duels: NextPage = () => {
           onClick={() => router.push('/duels')}
         >
           Current duels
+        </button>
+        <button
+          id="connect-wallet"
+          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
+          onClick={() => {
+            disconnect()
+            router.push('/')
+          }}
+        >
+          Disconnect
         </button>
       </div>
 
@@ -92,23 +92,26 @@ const Duels: NextPage = () => {
             {jobs.map((job) => (
               <div
                 key={job.wagers[0].token.token_id}
-                className="grid grid-cols-5 gap-4 pt-4"
+                className="grid grid-cols-4 grid-flow-row md:grid-cols-5 gap-4 pt-4 px-4"
+                style={{
+                  background: '#E3FFFF50',
+                }}
               >
-                <div>
-                  <p className="text-lg">
+                <div className='col-span-2 md:col-span-1'>
+                  <p className="text-sm md:text-lg">
                     Wizard #{job.wagers[0].token.token_id}
                   </p>
-                  <p className="text-lg">
+                  <p className="text-sm md:text-lg">
                     Wizard #{job.wagers[1].token.token_id}
                   </p>
                 </div>
-                <div>
-                  <p className="text-lg uppercase">${job.wagers[0].currency}</p>
-                  <p className="text-lg uppercase">${job.wagers[1].currency}</p>
+                <div className='col-span-1 md:col-span-1'>
+                  <p className="text-sm md:text-lg uppercase">${job.wagers[0].currency}</p>
+                  <p className="text-sm md:text-lg uppercase">${job.wagers[1].currency}</p>
                 </div>
-                <div>
-                  <p className="text-lg">{humanize(job.amount)}</p>
-                  <p className="text-lg">
+                <div className='col-span-2 md:col-span-1 order-last'>
+                  <p className="text-sm md:text-lg">{humanize(job.amount)}</p>
+                  <p className="text-sm md:text-lg">
                     {(
                       (new Date(
                         parseInt(job?.expires_at || '0') / 1_000_000,
@@ -119,35 +122,35 @@ const Duels: NextPage = () => {
                     m left
                   </p>
                 </div>
-                <div>
+                <div className='col-span-1 md:col-span-1'>
                   <div>
                     {job.current_winner?.token_id ===
                       job.wagers[0].token.token_id && (
-                      <p className="text-lg text-green-500">Winning...</p>
+                      <p className="text-sm md:text-lg text-green-500">Winning...</p>
                     )}
                     {job.current_winner?.token_id !==
                       job.wagers[0].token.token_id &&
                       job.current_winner && (
-                        <p className="text-lg text-red-500">Losing...</p>
+                        <p className="text-sm md:text-lg text-red-500">Losing...</p>
                       )}
-                    {!job.current_winner && <p className="text-lg">Tied</p>}
+                    {!job.current_winner && <p className="text-sm md:text-lg">Tied</p>}
                   </div>
                   <div>
                     {job.current_winner?.token_id ===
                       job.wagers[1].token.token_id && (
-                      <p className="text-lg text-green-500">Winning...</p>
+                      <p className="text-sm md:text-lg text-green-500">Winning...</p>
                     )}
                     {job.current_winner?.token_id !==
                       job.wagers[1].token.token_id &&
                       job.current_winner && (
-                        <p className="text-lg text-red-500">Losing...</p>
+                        <p className="text-sm md:text-lg text-red-500">Losing...</p>
                       )}
-                    {!job.current_winner && <p className="text-lg">Tied</p>}
+                    {!job.current_winner && <p className="text-sm md:stext-lg">Tied</p>}
                   </div>
                 </div>
                 <button
                   id="connect-wallet"
-                  className="inline-flex items-center justify-center px-4 pt-3 pb-0.5 text-sm text-black bg-white hover:bg-slate-300"
+                  className="inline-flex items-center col-span-2 md:col-span-1 order-last justify-center px-4 pt-3 pb-0.5 mb-4 text-sm text-black bg-white hover:bg-slate-300"
                   onClick={() =>
                     router.push(
                       `/status?token_id=${job.wagers[0].token.token_id}`,

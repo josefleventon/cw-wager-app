@@ -42,6 +42,19 @@ svg,
   }
 }
 
+@media (max-width: 768px) {
+  .cw-text-box__left p {
+    font-size: 10px;
+    padding-right: 25%;
+  }
+  .duel-arena .left-wizard {
+    transform: scale(2) translateX(-33%) translateY(10%);
+  }
+  .duel-arena .right-wizard {
+    transform: scale(1.3) translateX(33%);
+  }
+}
+
 img {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
