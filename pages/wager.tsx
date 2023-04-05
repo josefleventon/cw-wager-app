@@ -148,7 +148,7 @@ const Wager: NextPage = () => {
   return wizards && config ? (
     <main
       id="main"
-      className="flex items-center justify-center w-screen mb-5"
+      className="flex items-center justify-center w-screen h-screen mb-5"
     >
       <div className="hidden md:block absolute flex flex-col space-x-2 top-2 left-2">
         <button
