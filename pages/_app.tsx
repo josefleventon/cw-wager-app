@@ -1,5 +1,5 @@
 import WalletProvider from 'client/react/wallet/WalletProvider'
-import { MetaTags } from 'components'
+import { FullscreenMenu, MetaTags } from 'components'
 import { TxProvider } from 'contexts/tx'
 import type { AppProps } from 'next/app'
 import { Toaster } from 'react-hot-toast'
@@ -73,7 +73,7 @@ const MobHeader = () => {
           </p>
         </div>
         <div className="flex flex-row items-center space-x-4 pt-3 text-white">
-          <button>MENU</button>
+          <FullscreenMenu />
         </div>
       </div>
     </header>
