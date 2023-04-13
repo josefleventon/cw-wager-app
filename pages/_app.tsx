@@ -82,7 +82,7 @@ const Header = () => {
 }
 
 const MobHeader = () => {
-  const { walletMob } = useWallet()
+  const { wallet } = useWallet()
   return (
     <header className="md:hidden fixed w-full bg-theme-blue z-10 py-2 px-4"
       style={{
@@ -92,7 +92,7 @@ const MobHeader = () => {
         <div className="flex flex-row items-center space-x-4 pt-3">
           <img src="/icons/profile.svg" className="w-auto h-6 -mt-2" />
           <p className="text-white">
-            {walletMob?.address ? truncate(walletMob?.address) : 'Not connected'}
+            {wallet?.address ? truncate(wallet?.address) : 'Not connected'}
           </p>
         </div>
         <div className="flex flex-row items-center space-x-4 pt-3 text-white">
