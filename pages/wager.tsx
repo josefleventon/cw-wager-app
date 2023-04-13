@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import useChain from 'hooks/useChain'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { Spinner } from 'components'
 import { MintImage } from 'components/MediaView'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -15,6 +16,8 @@ import { useStargazeClient } from 'client'
 import { useTx } from 'contexts/tx'
 import { WagerMessageComposer } from 'types/Wager.message-composer'
 import useToaster, { ToastTypes } from 'hooks/useToaster'
+
+import useSound from 'use-sound';
 
 interface FormValues {
   versus: Currency
@@ -43,6 +46,11 @@ const Wager: NextPage = () => {
   const [didShowIncompatToast, setDidShowIncompatToast] = useState<boolean>(
     false,
   )
+
+  const [playClick, { stop }] = useSound(
+    '/sounds/click.mp3',
+    { volume: 0.5 }
+  );
 
   useEffect(() => {
     if (!client?.wagerClient || !wizards || wizards.length < 1) return
@@ -157,6 +165,7 @@ const Wager: NextPage = () => {
           onClick={() => {
             disconnect()
             router.push('/')
+            playClick();
           }}
         >
           Disconnect
@@ -179,6 +188,7 @@ const Wager: NextPage = () => {
                       : 'text-white cursor-pointer',
                     'w-12 h-12',
                   )}
+                  onClick={ () => playClick() }
                 />
               </a>
               <div className="w-64 h-64 left-wizard">
@@ -201,6 +211,7 @@ const Wager: NextPage = () => {
                       : 'text-white cursor-pointer',
                     'w-12 h-12',
                   )}
+                  onClick={ () => playClick() }
                 />
               </a>
             </div>
@@ -219,10 +230,13 @@ const Wager: NextPage = () => {
               <button
                 id="connect-wallet"
                 className="inline-flex items-center justify-center px-12 pt-4 pb-1 mt-12 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
-                onClick={() =>
-                  router.push(
-                    `/status?token_id=${wizards[selectedWizard].tokenId}`,
-                  )
+                onClick={() => {
+                    router.push(
+                      `/status?token_id=${wizards[selectedWizard].tokenId}`,
+                    )
+                    playClick()
+                    stop()
+                  }
                 }
               >
                 View current duel
@@ -282,7 +296,10 @@ const Wager: NextPage = () => {
                   id="connect-wallet"
                   className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
                   type="submit"
-                >
+                  onClick={() => {
+                    playClick()
+                  }}
+                  >
                   Duel!
                 </button>
               </form>
@@ -290,8 +307,15 @@ const Wager: NextPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col space-y-8 items-center justify-center">
           <p>You do not own any wizards.</p>
+          <Link href='https://www.stargaze.zone/marketplace/stars18d7ver7mmjdt06mz6x0pz09862060kupju75kpka5j0r7huearcsq0gyg0?sort=price_asc' target='_blank' onClick={() => playClick()}>
+            <button 
+              id="connect-wallet"
+              className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
+            >Buy one on Stargaze!</button>
+          </Link>
+
         </div>
       )}
     </main>

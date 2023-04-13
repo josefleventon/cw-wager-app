@@ -1,11 +1,12 @@
 import WalletProvider from 'client/react/wallet/WalletProvider'
-import { FullscreenMenu, MetaTags } from 'components'
+import { FullscreenMenu, MetaTags, SoundButton } from 'components'
 import { TxProvider } from 'contexts/tx'
 import type { AppProps } from 'next/app'
 import Link from 'next/link'
 
 import { useState } from "react"
 import { Toaster } from 'react-hot-toast'
+import useSound from 'use-sound';
 
 import 'styles/globals.css'
 import 'styles/fonts.css'
@@ -17,6 +18,7 @@ import { humanize, truncate } from 'util/constants'
 
 const WalletInfo = () => {
   const { wallet } = useWallet()
+
   return (
     <div
       className="hidden md:block w-[30rem] h-24 bg-theme-blue relative"
@@ -49,12 +51,7 @@ const WalletInfo = () => {
               </p>
             </div>
           </div>
-          {/* <a
-            href=""
-            className="-mt-2 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"
-          >
-            <img src="/icons/trophy.svg" className="w-auto h-9" />
-          </a> */}
+          <SoundButton />
         </div>
       </div>
     </div>
@@ -65,6 +62,10 @@ const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const router = useRouter()
   const pathname = router.pathname == '/status'
+  const [playClick] = useSound(
+    '/sounds/click.mp3',
+    { volume: 0.5 }
+  );
 
   return (
     <header className={"hidden " + (pathname ? 'hidden' : 'md:flex') +  " fixed w-full bg-theme-blue z-10 py-2 px-4 "}
@@ -73,9 +74,9 @@ const Header = () => {
     }}>
       <div className="flex flex-column justify-start space-x-8 py-4 pb-0">
           <img src="/logo.svg" className="w-auto h-6 -mt-1 mr-8" />
-          <Link className="text-lg text-white hover:text-slate-300" href='/wager' onClick={() => setIsNavOpen(false)}>Create Duel</Link>
-          <Link className="text-lg text-white hover:text-slate-300" href='/queue' onClick={() => setIsNavOpen(false)}>View queues</Link>
-          <Link className="text-lg text-white hover:text-slate-300" href='/duels' onClick={() => setIsNavOpen(false)}>Ongoing duels</Link>
+          <Link className="text-lg text-white hover:text-slate-300" href='/wager' onClick={() => {setIsNavOpen(false); playClick();}}>Create Duel</Link>
+          <Link className="text-lg text-white hover:text-slate-300" href='/queue' onClick={() => {setIsNavOpen(false); playClick();}}>View queues</Link>
+          <Link className="text-lg text-white hover:text-slate-300" href='/duels' onClick={() => {setIsNavOpen(false); playClick();}}>Ongoing duels</Link>
       </div>
     </header>
   )
@@ -106,6 +107,10 @@ const MobHeader = () => {
 export default function WagerApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const isPageStatus = router.pathname == '/status'
+  const [playClick] = useSound(
+    '/sounds/click.mp3',
+    { volume: 0.5 }
+  );
   
   return (
     <>
@@ -151,10 +156,10 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
                   </div>
                 </div>
                 <div className="hidden md:flex flex-row space-x-16 pt-6">
-                  <a href="https://discord.gg/pixelwizards" rel="noopener noreferrer" target="_blank">
+                  <a href="https://discord.gg/pixelwizards" onClick={() => playClick()} rel="noopener noreferrer" target="_blank">
                     <img src="icons/discord.svg" className="w-14 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80" />
                   </a>
-                  <a href="https://twitter.com/pixlwizardsnft" rel="noopener noreferrer" target="_blank">
+                  <a href="https://twitter.com/pixlwizardsnft" onClick={() => playClick()} rel="noopener noreferrer" target="_blank">
                     <img src="icons/twitter.svg" className="w-12 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"/>
                   </a>
                 </div>

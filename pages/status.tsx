@@ -10,12 +10,14 @@ import {
   WagerExport,
 } from 'types/Wager.types'
 import { getToken, NFT } from 'client/query'
-import { Spinner } from 'components'
+import { Spinner, SoundButton } from 'components'
 import { MintImage } from 'components/MediaView'
 import { WagerMessageComposer } from 'types/Wager.message-composer'
 import { useTx } from 'contexts/tx'
 import { Job, Change } from 'types/agent'
 import { classNames } from 'util/css'
+
+import useSound from 'use-sound';
 
 const Status: NextPage = () => {
   const { address } = useChain()
@@ -33,6 +35,11 @@ const Status: NextPage = () => {
   const [job, setJob] = useState<Job>()
   const [wizardChange, setWizardChange] = useState<Change>()
   const [otherWizardChange, setOtherWizardChange] = useState<Change>()
+
+  const [playClick] = useSound(
+    '/sounds/click.mp3',
+    { volume: 0.5 }
+  );
 
   useEffect(() => {
     if (!job?.change) return
@@ -157,10 +164,19 @@ const Status: NextPage = () => {
           <button
             id="connect-wallet"
             className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-            onClick={() => router.push('/wager')}
+            onClick={() => {
+                router.push('/wager')
+                playClick()
+              }
+            }
           >
             Return
           </button>
+          <div
+            id="connect-wallet"
+            className='flex items-center justify-center px-6 pt-4 pb-1 bg-theme-blue hover:bg-slate-300'
+          >
+          </div>
         </div>
 
         <div className="w-full max-w-6xl text-center text-white duel-arena">
@@ -181,7 +197,8 @@ const Status: NextPage = () => {
               <button
                 id="connect-wallet"
                 className="inline-flex mt-6 items-center justify-center px-12 pt-3 pb-0.5 text-black bg-white hover:bg-slate-300"
-                onClick={onCancel}
+                onClick={ onCancel }
+                onMouseUp={ () => playClick() }
               >
                 Cancel
               </button>

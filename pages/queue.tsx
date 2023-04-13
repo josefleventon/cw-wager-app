@@ -10,6 +10,8 @@ import { useStargazeClient } from 'client'
 import { humanize } from 'util/constants'
 import { Job } from 'types/agent'
 
+import useSound from 'use-sound';
+
 const Queue: NextPage = () => {
   const { disconnect, address } = useChain()
   const { client } = useStargazeClient()
@@ -19,6 +21,11 @@ const Queue: NextPage = () => {
 
   const [revalidateCounter, setRevalidateCounter] = useState(0)
   const [factor, setFactor] = useState<1 | -1>(1)
+
+  const [playClick] = useSound(
+    '/sounds/click.mp3',
+    { volume: 0.5 }
+  );
 
   useEffect(() => {
     if (!client?.wagerClient) return
@@ -59,6 +66,7 @@ const Queue: NextPage = () => {
           onClick={() => {
             disconnect()
             router.push('/')
+            playClick();
           }}
         >
           Disconnect
@@ -106,10 +114,11 @@ const Queue: NextPage = () => {
                 <button
                   id="connect-wallet"
                   className="inline-flex items-center col-span-3 md:col-span-1 justify-center px-4 pt-3 pb-0.5 mb-4 text-sm text-black bg-white hover:bg-slate-300"
-                  onClick={() =>
+                  onClick={() => {
                     router.push(
                       `/wager?currency=${matchmaking.currency}&amount=${matchmaking.amount}&expiry=${matchmaking.expiry}&wizard_currency=${matchmaking.against_currencies[0]}`,
                     )
+                    playClick();}
                   }
                 >
                   Duel!

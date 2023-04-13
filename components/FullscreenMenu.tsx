@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useWallet } from 'client'
 import { humanize } from 'util/constants'
+import SoundButton from "./SoundButton"
 import Link from 'next/link'
 
 export default function FullscreenMenu() {
@@ -33,6 +34,9 @@ export default function FullscreenMenu() {
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
+            </div>
+            <div className="absolute top-0 left-0 px-8 py-8">
+                <SoundButton />
             </div>
             <ul className="w-[90%] flex flex-col items-center justify-around min-h-[250px] h-full">
                 <div className="w-full">
