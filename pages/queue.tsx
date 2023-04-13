@@ -52,28 +52,7 @@ const Queue: NextPage = () => {
       id="main"
       className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
     >
-      <div className="hidden md:block absolute flex flex-row space-x-2 top-2 left-2">
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => router.push('/wager')}
-        >
-          Create duel
-        </button>
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-white bg-theme-blue"
-          onClick={() => router.push('/queue')}
-        >
-          View queues
-        </button>
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => router.push('/duels')}
-        >
-          Current duels
-        </button>
+      <div className="hidden md:block absolute flex flex-col space-x-2 top-1 right-2 z-10">
         <button
           id="connect-wallet"
           className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
@@ -87,7 +66,6 @@ const Queue: NextPage = () => {
       </div>
 
       <div className="w-full max-w-4xl text-center text-white md:mt-24">
-        <img src="/logo.svg" alt="PW LOGO" className="hidden md:block w-auto h-8 mx-auto" />
         <div className="flex flex-col justify-center mt-8">
           <p className="text-xl uppercase">Matchmaking Queue</p>
 
@@ -145,7 +123,7 @@ const Queue: NextPage = () => {
   ) : (
     <main
       id="main"
-      className="flex items-center justify-center w-screen h-screen md:overflow-hidden bg-theme-blue"
+      className="flex items-center justify-center absolute w-screen h-screen md:overflow-hidden bg-theme-blue z-10"
     >
       <Spinner className="w-16 h-16 text-white" />
     </main>
