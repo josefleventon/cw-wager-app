@@ -2,6 +2,9 @@ import WalletProvider from 'client/react/wallet/WalletProvider'
 import { FullscreenMenu, MetaTags } from 'components'
 import { TxProvider } from 'contexts/tx'
 import type { AppProps } from 'next/app'
+import Link from 'next/link'
+
+import { useState } from "react"
 import { Toaster } from 'react-hot-toast'
 
 import 'styles/globals.css'
@@ -58,8 +61,28 @@ const WalletInfo = () => {
   )
 }
 
+const Header = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const router = useRouter()
+  const pathname = router.pathname == '/status'
+
+  return (
+    <header className={"hidden " + (pathname ? 'hidden' : 'md:flex') +  " fixed w-full bg-theme-blue z-10 py-2 px-4 "}
+    style={{
+      borderBottom: '4px solid #E3FFFF',
+    }}>
+      <div className="flex flex-column justify-start space-x-8 py-4 pb-0">
+          <img src="/logo.svg" className="w-auto h-6 -mt-1 mr-8" />
+          <Link className="text-lg text-white hover:text-slate-300" href='/wager' onClick={() => setIsNavOpen(false)}>Create Duel</Link>
+          <Link className="text-lg text-white hover:text-slate-300" href='/queue' onClick={() => setIsNavOpen(false)}>View queues</Link>
+          <Link className="text-lg text-white hover:text-slate-300" href='/duels' onClick={() => setIsNavOpen(false)}>Ongoing duels</Link>
+      </div>
+    </header>
+  )
+}
+
 const MobHeader = () => {
-  const { wallet } = useWallet()
+  const { walletMob } = useWallet()
   return (
     <header className="md:hidden fixed w-full bg-theme-blue z-10 py-2 px-4"
       style={{
@@ -69,7 +92,7 @@ const MobHeader = () => {
         <div className="flex flex-row items-center space-x-4 pt-3">
           <img src="/icons/profile.svg" className="w-auto h-6 -mt-2" />
           <p className="text-white">
-            {wallet?.address ? truncate(wallet?.address) : 'Not connected'}
+            {walletMob?.address ? truncate(walletMob?.address) : 'Not connected'}
           </p>
         </div>
         <div className="flex flex-row items-center space-x-4 pt-3 text-white">
@@ -83,10 +106,12 @@ const MobHeader = () => {
 export default function WagerApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const isPageStatus = router.pathname == '/status'
+  
   return (
     <>
       <Toaster position="top-right" />
       <MobHeader />
+      <Header />
       <WalletProvider>
         <TxProvider>
           <MetaTags

@@ -148,30 +148,9 @@ const Wager: NextPage = () => {
   return wizards && config ? (
     <main
       id="main"
-      className="flex items-center justify-center w-screen h-screen mb-5"
+      className="flex items-center justify-center w-screen h-[100%] mb-5"
     >
-      <div className="hidden md:block absolute flex flex-col space-x-2 top-2 left-2">
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-white bg-theme-blue"
-          onClick={() => router.push('/wager')}
-        >
-          Create duel
-        </button>
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => router.push('/queue')}
-        >
-          View queues
-        </button>
-        <button
-          id="connect-wallet"
-          className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
-          onClick={() => router.push('/duels')}
-        >
-          Current duels
-        </button>
+      <div className="hidden md:block absolute flex flex-col space-x-2 top-1 right-2 z-10">
         <button
           id="connect-wallet"
           className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
@@ -184,7 +163,7 @@ const Wager: NextPage = () => {
         </button>
       </div>
       {wizards.length > 0 ? (
-        <div className="w-full max-w-3xl text-center text-white md:mt-24">
+        <div className="w-full max-w-3xl text-center text-white justify-center">
           <div className="flex justify-center mt-8">
             <div className="flex flex-row items-center mt-6 space-x-4 md:space-x-12">
               <a
@@ -319,7 +298,7 @@ const Wager: NextPage = () => {
   ) : (
     <main
       id="main"
-      className="flex items-center justify-center w-screen h-screen md:overflow-hidden bg-theme-blue"
+      className="flex items-center justify-center absolute w-screen h-screen md:overflow-hidden bg-theme-blue z-10"
     >
       <Spinner className="w-16 h-16 text-white" />
     </main>
