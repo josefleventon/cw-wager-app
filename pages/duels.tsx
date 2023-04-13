@@ -8,6 +8,8 @@ import { Spinner } from 'components'
 import { humanize } from 'util/constants'
 import { Job } from 'types/agent'
 
+import useSound from 'use-sound';
+
 const Duels: NextPage = () => {
   const { disconnect } = useChain()
   const router = useRouter()
@@ -16,6 +18,11 @@ const Duels: NextPage = () => {
 
   const [revalidateCounter, setRevalidateCounter] = useState(0)
   const [factor, setFactor] = useState<1 | -1>(1)
+
+  const [playClick] = useSound(
+    '/sounds/click.mp3',
+    { volume: 0.5 }
+  );
 
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_AGENT_API! + '/jobs')
@@ -52,6 +59,7 @@ const Duels: NextPage = () => {
           onClick={() => {
             disconnect()
             router.push('/')
+            playClick()
           }}
         >
           Disconnect
@@ -129,10 +137,13 @@ const Duels: NextPage = () => {
                 <button
                   id="connect-wallet"
                   className="inline-flex items-center col-span-2 md:col-span-1 order-last justify-center px-4 pt-3 pb-0.5 mb-4 text-sm text-black bg-white hover:bg-slate-300"
-                  onClick={() =>
-                    router.push(
-                      `/status?token_id=${job.wagers[0].token.token_id}`,
-                    )
+                  onClick={() => 
+                    {
+                      router.push(
+                        `/status?token_id=${job.wagers[0].token.token_id}`,
+                      )
+                      playClick()
+                    }
                   }
                 >
                   Spectate

@@ -4,9 +4,16 @@ import { useEffect } from 'react'
 import useChain from 'hooks/useChain'
 import { useRouter } from 'next/router'
 
+import useSound from 'use-sound';
+
 const Home: NextPage = () => {
   const { connect, isWalletConnected } = useChain()
   const router = useRouter()
+  
+  const [playStart] = useSound(
+    '/sounds/start.mp3',
+    { volume: 0.5 }
+  );
 
   useEffect(() => {
     if (isWalletConnected) router.push('/wager')
@@ -29,7 +36,10 @@ const Home: NextPage = () => {
         </div>
         <div></div>
         <a
-          onClick={() => connect()}
+          onClick={() => {
+            connect() 
+            playStart()
+          }}
           id="contour"
           className="mt-16 text-2xl font-bold uppercase transition duration-150 ease-in-out transform cursor-pointer text-theme-blue hover:text-theme-blue/80 hover:-translate-y-1 hover:scale-105"
         >
