@@ -15,6 +15,7 @@ import { classNames } from 'util/css'
 import { useRouter } from 'next/router'
 import { useWallet } from 'client'
 import { humanize, truncate } from 'util/constants'
+import { MusicProvider } from 'contexts/music'
 
 const WalletInfo = () => {
   const { wallet } = useWallet()
@@ -44,7 +45,7 @@ const WalletInfo = () => {
             </div>
             <div className="flex flex-row items-center space-x-4">
               <img src="/icons/wallet.svg" className="w-auto h-6 -mt-2" />
-              <p className="text-white ">
+              <p className="text-white">
                 {wallet?.balance
                   ? humanize(wallet?.balance.amount)
                   : 'Not connected'}
@@ -72,8 +73,8 @@ const Header = () => {
     style={{
       borderBottom: '4px solid #E3FFFF',
     }}>
-      <div className="flex flex-column justify-start space-x-8 py-4 pb-0">
-          <img src="/logo.svg" className="w-auto h-6 -mt-1 mr-8" />
+      <div className="flex justify-start py-4 pb-0 space-x-8 flex-column">
+          <img src="/logo.svg" className="w-auto h-6 mr-8 -mt-1" />
           <Link className="text-lg text-white hover:text-slate-300" href='/wager' onClick={() => {setIsNavOpen(false); playClick();}}>Create Duel</Link>
           <Link className="text-lg text-white hover:text-slate-300" href='/queue' onClick={() => {setIsNavOpen(false); playClick();}}>View queues</Link>
           <Link className="text-lg text-white hover:text-slate-300" href='/duels' onClick={() => {setIsNavOpen(false); playClick();}}>Ongoing duels</Link>
@@ -85,18 +86,18 @@ const Header = () => {
 const MobHeader = () => {
   const { wallet } = useWallet()
   return (
-    <header className="md:hidden fixed w-full bg-theme-blue z-10 py-2 px-4"
+    <header className="fixed z-10 w-full px-4 py-2 md:hidden bg-theme-blue"
       style={{
         borderBottom: '4px solid #E3FFFF',
       }}>
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row items-center space-x-4 pt-3">
+        <div className="flex flex-row items-center pt-3 space-x-4">
           <img src="/icons/profile.svg" className="w-auto h-6 -mt-2" />
           <p className="text-white">
             {wallet?.address ? truncate(wallet?.address) : 'Not connected'}
           </p>
         </div>
-        <div className="flex flex-row items-center space-x-4 pt-3 text-white">
+        <div className="flex flex-row items-center pt-3 space-x-4 text-white">
           <FullscreenMenu />
         </div>
       </div>
@@ -118,6 +119,7 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
       <MobHeader />
       <Header />
       <WalletProvider>
+        <MusicProvider>
         <TxProvider>
           <MetaTags
             title="Token Dueling"
@@ -133,7 +135,7 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
               'absolute top-0 right-0 object-cover object-[75%] w-screen h-screen -z-10',
             )}
           />
-          <main className="w-screen h-screen min-h-screen overflow-x-hidden flex flex-col justify-between text-white pb-6">
+          <main className="flex flex-col justify-between w-screen h-screen min-h-screen pb-6 overflow-x-hidden text-white">
             <Component {...pageProps} />
             {!isPageStatus && (
               <div className="flex flex-row justify-between w-screen">
@@ -155,9 +157,9 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
                     </p>
                   </div>
                 </div>
-                <div className="hidden md:flex flex-row space-x-16 pt-6">
+                <div className="flex-row hidden pt-6 space-x-16 md:flex">
                   <a href="https://discord.gg/pixelwizards" onClick={() => playClick()} rel="noopener noreferrer" target="_blank">
-                    <img src="icons/discord.svg" className="w-14 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80" />
+                    <img src="icons/discord.svg" className="transition duration-75 ease-in-out transform cursor-pointer w-14 hover:scale-105 hover:opacity-80" />
                   </a>
                   <a href="https://twitter.com/pixlwizardsnft" onClick={() => playClick()} rel="noopener noreferrer" target="_blank">
                     <img src="icons/twitter.svg" className="w-12 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"/>
@@ -168,6 +170,7 @@ export default function WagerApp({ Component, pageProps }: AppProps) {
             )}
           </main>
         </TxProvider>
+        </MusicProvider>
       </WalletProvider>
     </>
   )

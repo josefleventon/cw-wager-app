@@ -59,7 +59,7 @@ const Queue: NextPage = () => {
       id="main"
       className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
     >
-      <div className="hidden md:block absolute flex flex-col space-x-2 top-1 right-2 z-10">
+      <div className="absolute z-10 flex flex-col space-x-2 md:block top-1 right-2">
         <button
           id="connect-wallet"
           className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
@@ -85,7 +85,7 @@ const Queue: NextPage = () => {
             {matchmaking.map((matchmaking) => (
               <div
                 key={matchmaking.token.token_id}
-                className="grid grid-cols-5 grid-flow-row md:grid-cols-5 gap-4 pt-4 px-4"
+                className="grid grid-flow-row grid-cols-5 gap-4 px-4 pt-4 md:grid-cols-5"
                 style={{
                   background: '#E3FFFF50',
                 }}
@@ -94,20 +94,20 @@ const Queue: NextPage = () => {
                   <p className="text-sm md:text-lg">
                     Wizard #{matchmaking.token.token_id}
                   </p>
-                  <p className="text-sm md:text-lg text-green-500 uppercase">
+                  <p className="text-sm text-green-500 uppercase md:text-lg">
                     ${matchmaking.currency}
                   </p>
                 </div>
                 <div className='col-span-1 md:col-span-1'>
-                  <p className="text-sm md:text-lg uppercase">vs</p>
+                  <p className="text-sm uppercase md:text-lg">vs</p>
                 </div>
                 <div className='col-span-2 md:col-span-1'>
                   <p className="text-sm md:text-lg">Anyone</p>
-                  <p className="text-sm md:text-lg text-green-500 uppercase">
+                  <p className="text-sm text-green-500 uppercase md:text-lg">
                     ${matchmaking.against_currencies.join('/')}
                   </p>
                 </div>
-                <div className="col-span-2 md:col-span-1 pt-2 md:pt-0">
+                <div className="col-span-2 pt-2 md:col-span-1 md:pt-0">
                   <p className="text-sm md:text-lg">{humanize(matchmaking.amount)}</p>
                   <p className="text-sm md:text-lg">{matchmaking.expiry / 60} minutes</p>
                 </div>
@@ -132,7 +132,7 @@ const Queue: NextPage = () => {
   ) : (
     <main
       id="main"
-      className="flex items-center justify-center absolute w-screen h-screen md:overflow-hidden bg-theme-blue z-10"
+      className="absolute z-10 flex items-center justify-center w-screen h-screen md:overflow-hidden bg-theme-blue"
     >
       <Spinner className="w-16 h-16 text-white" />
     </main>
