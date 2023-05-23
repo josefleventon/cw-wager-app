@@ -3,6 +3,7 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { Howl, Howler } from "howler";
@@ -23,6 +24,7 @@ export interface MusicContext {
   stop: () => void;
   changeVolume: (volume: number) => void;
   isPlaying: boolean;
+  volume: number;
 }
 
 export const Music = createContext<MusicContext>({
@@ -30,10 +32,12 @@ export const Music = createContext<MusicContext>({
   stop: () => {},
   changeVolume: () => {},
   isPlaying: false,
+  volume: 0.25,
 });
 
 export function MusicProvider({ children }: { children: ReactNode }) {
   const [sound, setSound] = useState<Howl>();
+  const [volume, setVolume] = useState<number>(0.25);
 
   const play = useCallback(
     (name: string) => {
@@ -59,13 +63,15 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     setSound(undefined);
   }, [sound]);
 
-  const changeVolume = useCallback(
-    (volume: number) => Howler.volume(volume),
-    []
-  );
+  const changeVolume = useCallback((volume: number) => {
+    setVolume(volume);
+    Howler.volume(volume);
+  }, []);
 
   return (
-    <Music.Provider value={{ play, stop, changeVolume, isPlaying: !!sound }}>
+    <Music.Provider
+      value={{ play, stop, changeVolume, isPlaying: !!sound, volume }}
+    >
       {children}
     </Music.Provider>
   );

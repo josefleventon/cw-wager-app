@@ -25,7 +25,7 @@ const Status: NextPage = () => {
   const { client } = useStargazeClient();
   const router = useRouter();
 
-  const { play, stop, isPlaying } = useMusic();
+  const { play, stop, isPlaying, volume, changeVolume } = useMusic();
 
   const [revalidateCounter, setRevalidateCounter] = useState(0);
   const [factor, setFactor] = useState<1 | -1>(1);
@@ -160,36 +160,61 @@ const Status: NextPage = () => {
         id="main"
         className="flex items-center justify-center w-screen h-screen md:overflow-hidden"
       >
-        <div className="absolute flex flex-col space-y-2 md:block top-2 left-2">
+        <div className="absolute flex-col hidden space-y-2 md:flex top-2 left-2">
           <button
             id="connect-wallet"
             className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
             onClick={() => {
               router.push("/wager");
               stop();
-              play("title");
+              if (isPlaying) play("title");
               playClick();
             }}
           >
             Return
           </button>
-          <button
-            onClick={() => {
-              if (isPlaying) {
-                stop();
-              } else {
-                play("battle");
-              }
-            }}
+          <div
             id="connect-wallet"
-            className="flex items-center justify-center px-6 py-4 bg-theme-blue"
+            className="flex items-center justify-center px-6 pt-4 pb-1 bg-theme-blue"
           >
-            {!isPlaying ? (
-              <img src="/icons/soundOff.svg" className="w-auto h-9" />
-            ) : (
-              <img src="/icons/soundOn.svg" className="w-auto h-9" />
-            )}
-          </button>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="flex flex-row space-x-4">
+                <button
+                  className="text-lg"
+                  onClick={() => {
+                    if (volume >= 0.5) changeVolume(volume - 0.25);
+                  }}
+                >
+                  -
+                </button>
+                <button
+                  onClick={() => {
+                    if (isPlaying) {
+                      stop();
+                    } else {
+                      play("battle");
+                    }
+                  }}
+                  className="-mt-2 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"
+                >
+                  {!isPlaying ? (
+                    <img src="/icons/soundOff.svg" className="w-auto h-9" />
+                  ) : (
+                    <img src="/icons/soundOn.svg" className="w-auto h-9" />
+                  )}
+                </button>
+                <button
+                  className="text-lg"
+                  onClick={() => {
+                    if (volume <= 0.75) changeVolume(volume + 0.25);
+                  }}
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-sm">{volume * 100}%</p>
+            </div>
+          </div>
         </div>
 
         <div className="w-full max-w-6xl text-center text-white duel-arena">

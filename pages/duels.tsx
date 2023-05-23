@@ -52,7 +52,7 @@ const Duels: NextPage = () => {
       id="main"
       className="flex items-center justify-center w-screen h-[85vh] md:overflow-hidden"
     >
-      <div className="absolute z-10 flex flex-col hidden space-x-2 md:block top-1 right-2">
+      <div className="absolute z-10 flex-col hidden space-x-2 md:flex top-1 right-2">
         <button
           id="connect-wallet"
           className="inline-flex items-center justify-center px-6 pt-4 pb-1 text-black bg-white hover:bg-slate-300"
