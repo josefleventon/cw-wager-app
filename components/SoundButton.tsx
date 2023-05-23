@@ -7,7 +7,7 @@ export default function SoundButton() {
     <div className="flex flex-col items-center space-y-2">
       <div className="flex flex-row space-x-4">
         <button
-          className="text-3xl md:text-lg"
+          className="mt-2 text-3xl md:text-lg"
           onClick={() => {
             if (volume >= 0.5) changeVolume(volume - 0.25);
           }}
@@ -22,7 +22,7 @@ export default function SoundButton() {
               play("title");
             }
           }}
-          className="-mt-2 transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"
+          className="transition duration-75 ease-in-out transform cursor-pointer hover:scale-105 hover:opacity-80"
         >
           {!isPlaying ? (
             <img src="/icons/soundOff.svg" className="w-auto h-12 md:h-9" />
@@ -31,7 +31,7 @@ export default function SoundButton() {
           )}
         </button>
         <button
-          className="text-3xl md:text-lg"
+          className="mt-2 text-3xl md:text-lg"
           onClick={() => {
             if (volume <= 0.75) changeVolume(volume + 0.25);
           }}
