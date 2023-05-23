@@ -15,7 +15,7 @@ const Duels: NextPage = () => {
   const { disconnect } = useChain();
   const router = useRouter();
 
-  const { play, stop } = useMusic();
+  const { play, stop, isPlaying } = useMusic();
 
   const [jobs, setJobs] = useState<Job[]>();
 
@@ -158,7 +158,7 @@ const Duels: NextPage = () => {
                       `/status?token_id=${job.wagers[0].token.token_id}`
                     );
                     stop();
-                    play("battle");
+                    if (isPlaying) play("battle");
                     playClick();
                   }}
                 >

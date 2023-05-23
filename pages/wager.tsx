@@ -31,7 +31,7 @@ const Wager: NextPage = () => {
   const { client } = useStargazeClient();
   const router = useRouter();
 
-  const { stop: stopTrack, play } = useMusic();
+  const { stop: stopTrack, play, isPlaying } = useMusic();
 
   const { currency, amount, expiry, wizard_currency } = router.query;
 
@@ -233,7 +233,7 @@ const Wager: NextPage = () => {
                     `/status?token_id=${wizards[selectedWizard].tokenId}`
                   );
                   stopTrack();
-                  play("battle");
+                  if (isPlaying) play("battle");
                   playClick();
                   stop();
                 }}
@@ -297,7 +297,7 @@ const Wager: NextPage = () => {
                   type="submit"
                   onClick={() => {
                     stopTrack();
-                    play("battle");
+                    if (isPlaying) play("battle");
                     playClick();
                   }}
                 >
