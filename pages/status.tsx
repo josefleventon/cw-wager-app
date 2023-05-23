@@ -184,7 +184,7 @@ const Status: NextPage = () => {
             id="connect-wallet"
             className="flex items-center justify-center px-6 py-4 bg-theme-blue"
           >
-            {isPlaying ? (
+            {!isPlaying ? (
               <img src="/icons/soundOff.svg" className="w-auto h-9" />
             ) : (
               <img src="/icons/soundOn.svg" className="w-auto h-9" />
