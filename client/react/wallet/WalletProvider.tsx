@@ -47,7 +47,7 @@ export default function WalletProvider({
       defaultNameService="stargaze"
       walletConnectOptions={{
         signClient: {
-          projectId: "pixelwizards",
+          projectId: "51e949ab2fe66ef257e6ac697377dc6d",
           metadata: {
             name: "PixelWizards",
             description:
