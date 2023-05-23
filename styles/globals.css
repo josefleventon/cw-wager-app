@@ -19,8 +19,7 @@ select {
   appearance: none;
 }
 
-svg,
-.backdrop {
+svg .backdrop {
   display: none;
 }
 
