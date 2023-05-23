@@ -45,7 +45,20 @@ export default function WalletProvider({
         ...LeapWallet,
       ]}
       defaultNameService="stargaze"
-      walletConnectOptions={{ signClient: { projectId: "pixelwizards" } }}
+      walletConnectOptions={{
+        signClient: {
+          projectId: "pixelwizards",
+          metadata: {
+            name: "PixelWizards",
+            description:
+              "Allow PixelWizards to connect to your wallet to duel other wizards.",
+            icons: [
+              "https://cdn.discordapp.com/attachments/1075071591463002163/1110641923707916288/pw-logo-circle-min.png",
+            ],
+            url: "https://duel.pixelwizards.art/",
+          },
+        },
+      }}
     >
       <WalletContextProvider>
         <StargazeProvider>{children}</StargazeProvider>
