@@ -296,6 +296,8 @@ const Wager: NextPage = () => {
                   className="inline-flex items-center justify-center px-12 pt-4 pb-1 text-lg text-black bg-theme-sky hover:bg-theme-sky/80"
                   type="submit"
                   onClick={() => {
+                    stopTrack();
+                    play("battle");
                     playClick();
                   }}
                 >
